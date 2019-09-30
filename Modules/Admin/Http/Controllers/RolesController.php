@@ -98,12 +98,11 @@ class RolesController extends Controller
     }
 
     public function delete(Role $role){
+
         $role->delete();
-        return redirect()->route('admin.roles.index')->with([
-            'toastr' => json_encode([
-                'type' => 'success',
-                'message' => 'Role Deleted Succesfully'
-            ])
+
+        return response()->json([
+            'success' => 'success',
         ]);
     }
 

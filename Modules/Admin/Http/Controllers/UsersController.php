@@ -2,6 +2,7 @@
 
 namespace Modules\Admin\Http\Controllers;
 
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use Modules\Admin\Entities\Role;
@@ -15,11 +16,12 @@ use DataTables;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Cartalyst\Sentinel\Users\UserInterface;
+
 
 class UsersController extends Controller
 {
     /**
+     * Display a listing of the user resource.
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(){
@@ -30,34 +32,57 @@ class UsersController extends Controller
         ]);
     }
 
+    /**
+     * Datatables server side rendering
+     * @return mixed
+     */
     public function datatable(){
         $users = User::select(['id', 'first_name', 'last_name', 'email', 'created_at'])->with('roles','activations');
         $datatables = DataTables::of($users);
+
         //EDIT COLUMNS
-        $datatables->editColumn('created_at',function($user){ return Carbon::parse($user->created_at)->format('d-m-Y H:i'); });
-        //FILTERS
+        $datatables->editColumn('created_at',function($user){ return Carbon::parse($user->created_at)->format(getDateTimeFormat()); });
+
         return $datatables->rawColumns(['actions'])->make();
     }
 
+    /**
+     * Show the specified resource.
+     * @return mixed
+     */
     public function show(User $user){
         return view('admin::users.show', compact('user'));
     }
 
+    /**
+     * Show the specified tab.
+     * @return mixed
+     */
     public function generalInfoTab(Request $request, User $user){
         $roles = Role::pluck('name', 'id');
         $activate = (Activation::completed($user)) ? true : false;
+
         return View::make('admin::users.general-info',compact('user','roles','activate'))->render();
     }
 
+    /**
+     * Show the specified tab.
+     * @return mixed
+     */
     public function changePasswordTab(Request $request,  User $user){
         return View::make('admin::users.change-password-tab', compact('user'))->render();
     }
 
+    /**
+     * Show the specified tab.
+     * @return mixed
+     */
     public function permissionsTab(Request $request, User $user, PermissionRepository $permissionRepository){
         $permissions = $permissionRepository->getPermissionsGroupped();
         $selected_permissions = collect($user->getPermissions())->map(function($p,$k){
             return $k;
         });
+
         return View::make('admin::users.permissions-tab', compact('user','permissions','selected_permissions'))->render();
     }
 
@@ -97,6 +122,10 @@ class UsersController extends Controller
         ]);
     }
 
+    /**
+     * Users quick create modal
+     * @return mixed
+     */
     public function create(Request $request, PermissionRepository $permissionRepository){
         $roles = Role::pluck('name', 'id');
         $permissions = $permissionRepository->getPermissionsGroupped();
@@ -104,6 +133,10 @@ class UsersController extends Controller
         return View::make('admin::users.quick-create')->with(['roles'=>$roles])->render();
     }
 
+    /**
+     * Store user
+     * @return Response
+     */
     public function store(StoreUserRequest $request){
         $activate = $request->activate ? true : false;
 
@@ -128,6 +161,10 @@ class UsersController extends Controller
         ]);
     }
 
+    /**
+     * Edit user
+     * @return mixed
+     */
     public function edit(User $user, PermissionRepository $permissionRepository){
         $roles = Role::pluck('name', 'id');
         $permissions = $permissionRepository->getPermissionsGroupped();
@@ -183,6 +220,10 @@ class UsersController extends Controller
         ]);
     }
 
+    /**
+     * Update user
+     * @return Response
+     */
     public function update(UpdateUserRequest $request, User $user){
         $activate = $request->has('activate') ? true : false;
 
@@ -225,6 +266,10 @@ class UsersController extends Controller
         ]);
     }
 
+    /**
+     * Delete user
+     * @return Response
+     */
     public function delete(Request $request){
 
         if ($request->input('id')){

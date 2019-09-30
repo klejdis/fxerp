@@ -23,13 +23,14 @@ class LoginController extends Controller
         return view('admin::auth.login');
     }
 
+
     /**
-    * Authe //Validate User Input
-        $this->validate($request , [
-            'email' => 'required|email',
-            'password' => 'required|min:6'
-        ]);nticate User Against Credentials
-    */
+     * Authenticate users
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function authenticate(Request $request){
 
         //Validate User Input

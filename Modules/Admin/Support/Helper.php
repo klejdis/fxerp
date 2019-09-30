@@ -41,5 +41,32 @@ class Helper{
         return $timezone_dropdown;
     }
 
+    /**
+     * Check If User Has Access On Previus Route
+     *
+     * @param Route $route
+     * @return bool
+     */
+    public static  function checkRouteForPermission(Route $route){
+        $permissions = $route->getAction('middleware');
+
+        $permissions = collect($permissions);
+
+        $permission = $permissions->search(function ($item,$key){
+            return str_contains($item,'permission:');
+        });
+
+        if ($permission){
+            $p = explode(':',$permissions[$permission]);
+
+            if ($p[0] == 'permission' && isset($p[1]) && $p[1] !== null){
+                return Sentinel::hasAccess($p[1]);
+            }
+
+        }
+
+        return false;
+    }
+
 
 }
