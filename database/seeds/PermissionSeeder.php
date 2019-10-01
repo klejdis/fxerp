@@ -118,6 +118,66 @@ class PermissionSeeder extends Seeder
                 'slug' => 'delete-dashboard',
                 'module' => 'Dashboard',
             ],
+
+            [
+                'name' => 'Browse Product',
+                'slug' => 'browse-product',
+                'module' => 'Product',
+            ],
+
+            [
+                'name' => 'Read Product',
+                'slug' => 'read-product',
+                'module' => 'Product',
+            ],
+
+            [
+                'name' => 'Edit Product',
+                'slug' => 'edit-product',
+                'module' => 'Product',
+            ],
+
+            [
+                'name' => 'Add Product',
+                'slug' => 'create-product',
+                'module' => 'Product',
+            ],
+
+            [
+                'name' => 'Delete Product',
+                'slug' => 'delete-product',
+                'module' => 'Product',
+            ],
+
+            [
+                'name' => 'Browse Clients',
+                'slug' => 'browse-clients',
+                'module' => 'Clients',
+            ],
+
+            [
+                'name' => 'Read Clients',
+                'slug' => 'read-clients',
+                'module' => 'Clients',
+            ],
+
+            [
+                'name' => 'Edit Clients',
+                'slug' => 'edit-clients',
+                'module' => 'Clients',
+            ],
+
+            [
+                'name' => 'Add Clients',
+                'slug' => 'create-clients',
+                'module' => 'Clients',
+            ],
+
+            [
+                'name' => 'Delete Clients',
+                'slug' => 'delete-clients',
+                'module' => 'Clients',
+            ],
         ]);
     }
 }

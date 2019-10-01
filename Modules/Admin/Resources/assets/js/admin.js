@@ -289,6 +289,7 @@ $(document).ready(function () {
                                     fieldErrors = response.responseJSON.errors;
                                     for ( field in fieldErrors ){
                                         $('input[name="'+field+'"]').parent().addClass('has-error');
+                                        $('input[name="'+field+'"]').parent().append('<span id="first_name-error" class="help-block">'+fieldErrors[field][0]+'</span>');
                                     }
                                 }
                             }else if(response.status == 500){

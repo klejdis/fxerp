@@ -28,7 +28,8 @@
 
                                 <div class="pull-left btn btn-default btn-xs">
                                     <input type="hidden" name="app-logo" value="" id="app-logo">
-                                    {!! Form::file('' , ['id'=>'app-logo-input' , 'class'=> 'upload' , 'data-height' => '50' ,  'data-width'=> '120' , 'data-preview-container' => '#applogo-image-preview' , 'data-input-field'=> '#app-logo'] )  !!}
+                                    {!! Form::file('' , ['id'=>'app-logo-input' , 'class'=> 'upload' , 'data-height' => '50' ,
+                                    'data-width'=> '120' , 'data-preview-container' => '#applogo-image-preview' , 'data-input-field'=> '#app-logo'] )  !!}
                                 </div>
                             </div>
                         </div>

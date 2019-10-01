@@ -18,6 +18,10 @@ class RolesController extends Controller
         $this->permissionRepository = $permissionRepository;
     }
 
+    /**
+     * Display a listing of the roles resource.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(){
         return view('admin::roles.index')->with([
             'panel' => [
@@ -26,27 +30,45 @@ class RolesController extends Controller
         ]);;
     }
 
+    /**
+     * Datatables server side rendering
+     * @return mixed
+     */
     public function datatable(){
         $roles = Role::select(['id', 'name', 'created_at']);
         $datatables = Datatables::of($roles);
 
         //EDIT COLUMNS
-        $datatables->editColumn('created_at',function($role){ return Carbon::parse($role->created_at)->format('d-m-Y H:i'); });
+        $datatables->editColumn('created_at',function($role){ return Carbon::parse($role->created_at)->format(getDateTimeFormat()); });
 
         //FILTERS
         return $datatables->rawColumns(['actions'])->make();
     }
 
+    /**
+     * Quick Create Role Modal
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function quickCreate(PermissionRepository $permissionRepository){
         $permissions = $permissionRepository->getPermissionsGroupped();
         return view('admin::roles.quick_create' , compact('permissions'));
     }
 
+
+    /**
+     * Quick Create Role Modal
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create(PermissionRepository $permissionRepository){
         $permissions = $permissionRepository->getPermissionsGroupped();
         return view('admin::roles.quick_create' , compact('permissions'));
     }
 
+
+    /**
+     * Store Role
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function store(StoreRoleRequest $request , PermissionRepository $permissionRepository){
         try {
             $permissions = $permissionRepository->getPermissionsFromGroup($request->permissions);
@@ -66,6 +88,10 @@ class RolesController extends Controller
         ]);
     }
 
+    /**
+     * Edit Role
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit(Role $role){
         $permissions = $this->permissionRepository->getPermissionsGroupped();
         $selected_permissions = $selected_permissions = collect($role->getPermissions())->map(function($p,$k){
@@ -75,6 +101,10 @@ class RolesController extends Controller
         return view('admin::roles.edit', compact('role','permissions','selected_permissions'));
     }
 
+    /**
+     * Update Role
+     * @return mixed
+     */
     public function update(StoreRoleRequest $request, Role $role){
         try {
             $role->update($request->only(['name', 'slug']));
@@ -97,6 +127,10 @@ class RolesController extends Controller
         ]);
     }
 
+    /**
+     * Delete Role
+     * @return mixed
+     */
     public function delete(Role $role){
 
         $role->delete();

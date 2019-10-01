@@ -4,6 +4,7 @@ namespace Modules\Admin\Http\Requests;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\Admin\Entities\User;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -24,11 +25,6 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email',
-            'roles' => 'nullable|array',
-        ];
+        return User::getValidationRules();
     }
 }

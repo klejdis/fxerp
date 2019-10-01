@@ -37,7 +37,7 @@ class User extends EloquentUser implements Authenticatable
         'password',
     ];
 
-    /**
+    /**            'email' => 'required',
      * The attributes that should be hidden for arrays.
      *
      * @var array
@@ -58,7 +58,8 @@ class User extends EloquentUser implements Authenticatable
         return [
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email',
+            'roles' => 'nullable|array',
         ];
     }
 

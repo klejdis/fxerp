@@ -2,7 +2,7 @@
     <h4><i class="fa fa-wrench"></i> App Settings </h4>
 
     <ul class="nav nav-tabs vertical" role="tablist">
-        <li role="presentation" class="{{active(['admin/settings/general'])}}">
+        <li role="presentation" class="{{active(['admin/settings/general','admin/settings'])}}">
             <a href="{{route('admin.setting.index' , ['tab' => 'general'])}}">
                 General
             </a>

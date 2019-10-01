@@ -10,6 +10,11 @@ use App\Http\Controllers\Controller;
 
 class SettingsController extends Controller
 {
+
+    /**
+     * @param null $tab
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index($tab = null ){
 
         if ($tab == null || $tab == 'general'){
@@ -30,6 +35,10 @@ class SettingsController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request){
         foreach ($request->except(['_token']) as $key => $value){
 
@@ -64,13 +73,17 @@ class SettingsController extends Controller
         ]);
     }
 
+    /**
+     * @param null $base64_str
+     * @return string
+     */
     protected function _saveLogo($base64_str = null){
         //decode base64 string
         $image = getBase64ImageFromRequest($base64_str);
 
-        $save_dir = 'logo/';
+        $save_dir = 'admin/images/';
 
-        $image_name = 'applogo.png';
+        $image_name = 'logo.png';
 
         Storage::disk('public')->put($save_dir.$image_name, $image);
 

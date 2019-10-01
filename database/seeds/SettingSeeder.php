@@ -18,7 +18,7 @@ class SettingSeeder extends Seeder
         Setting::set('activation-availability', 'true');
         Setting::set('forgot-password-avalilability', 'true');
         Setting::set('backend-entry-point', 'admin.dashboard.index');
-        Setting::set('app-name', 'Laravel 5');
+        Setting::set('app-name', 'FxPro');
         Setting::set('app-lang', 'en');
         Setting::set('app-timezone', 'Europe/Tirane');
         Setting::set('app-date-format', 'd-m-Y');

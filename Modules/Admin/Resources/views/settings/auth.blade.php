@@ -13,8 +13,7 @@
                     <div class="panel-body">
 
                         <div class="form-group">
-                            <label for="" class="col-sm-3">{{ __('backend/roles.activations') }}</label>
-
+                            {!! Form::label('', 'Activation' , ['class'=> 'col-sm-3']) !!}
                             <div class="col-sm-5">
                                 <select name="activation-availability" id="" class="form-control">
                                     @php $selected_activation_availability = Setting::get('activation-availability'); @endphp
@@ -24,7 +23,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="" class="col-sm-3">{{ __('backend/roles.activation_type') }}</label>
+                            {!! Form::label('', 'Activation Type' , ['class'=> 'col-sm-3']) !!}
 
                             <div class="col-sm-5">
                                 <select name="activation-type" id="" class="form-control">
@@ -36,7 +35,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="" class="col-sm-3">Automatic Activation on Register</label>
+                            {!! Form::label('', 'Automatic Activation on Register' , ['class'=> 'col-sm-3']) !!}
 
                             <div class="col-sm-5">
                                 <select name="automatic-activation-after-register" id="" class="form-control">
@@ -53,7 +52,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="" class="col-sm-3">Forgot Password Availability</label>
+                            {!! Form::label('', 'Forgot Password Availability' , ['class'=> 'col-sm-3']) !!}
 
                             <div class="col-sm-5">
                                 <select name="forgot-password-avalilability" id="" class="form-control">
@@ -70,7 +69,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="" class="col-sm-3">Backend Entry Point</label>
+                            {!! Form::label('', 'Backend Entry Point' , ['class'=> 'col-sm-3']) !!}
 
                             <div class="col-sm-5">
                                 <input type="text" class="form-control" name="backend-entry-point" value="{!! Setting::get('backend-entry-point') !!}">

@@ -3,19 +3,20 @@
 namespace Modules\Admin\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-use Cartalyst\Sentinel\Roles\EloquentRole;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Request;
 use Sentinel;
 use Collective\Html\HtmlFacade;
 use Wildside\Userstamps\Userstamps;
 
-class Role extends EloquentRole
+class Client extends Model
 {
 
     use Userstamps;
 
     protected $appends = ['actions'];
+
+    public $fillable = [
+        'first_name', 'last_name','company_name','address','city','phone','website'
+    ];
 
     /**
      * ------------------------------------------------------------------------
@@ -23,11 +24,15 @@ class Role extends EloquentRole
      * ------------------------------------------------------------------------
      */
 
-    public static function getValidationRules(FormRequest $request){
+    public static function getValidationRules(){
         return [
-            'name' => 'required',
-            'slug' => 'required',
-            'permissions' => 'required|array',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'phone' => 'required',
+            'company_name' => 'required',
+            'address' => 'required',
+            'city' => 'nullable',
+            'website' => 'nullable|url',
         ];
     }
 
@@ -39,34 +44,34 @@ class Role extends EloquentRole
     public function getActionsAttribute(){
         $actions_html = '';
 
-//        if (Sentinel::hasAccess('read-roles')) {
-//            $actions_html .= HtmlFacade::link(
-//                route('admin.roles.show', ['role' => $this->id]),
-//                app('laravel-font-awesome')->icon('fa-search'),
-//                ['title' => 'Roles Detail'],
-//                false,
-//                false
-//            );
-//        }
+        if (Sentinel::hasAccess('read-clients')) {
+            $actions_html .= HtmlFacade::link(
+                route('admin.clients.show', ['client' => $this->id]),
+                app('laravel-font-awesome')->icon('fa-search'),
+                ['title' => 'Clients Detail'],
+                false,
+                false
+            );
+        }
 
-        if (Sentinel::hasAccess('edit-roles')){
+        if (Sentinel::hasAccess('edit-clients')){
             $actions_html .= modal_anchor(
-                route('admin.roles.edit', ['role' => $this->id]),
+                route('admin.clients.edit', ['client' => $this->id]),
                 app('laravel-font-awesome')->icon('fa-pencil'),
-                ['class' => 'edit' , 'title' => 'Edit Roles']
+                ['class' => 'edit' , 'title' => 'Edit Clients']
             );
         }
 
         $dtDropdownListItems = [];
 
-        if (Sentinel::hasAccess('delete-roles')) {
+        if (Sentinel::hasAccess('delete-clients')) {
             $dtDropdownListItems[] = HtmlFacade::link(
                 '#',
                 'Delete',
                 [
                     'data-id'=> $this->id,
                     'data-action' => 'delete-confirmation',
-                    'data-action-url' => route('admin.roles.destroy', $this->id),
+                    'data-action-url' => route('admin.clients.destroy', $this->id),
                 ],
                 false,
                 false
@@ -79,8 +84,6 @@ class Role extends EloquentRole
                                 </a>
 							 ';
 
-
-
         $actions_html .= HtmlFacade::ul( $dtDropdownListItems, [
             'class' => 'dropdown-menu',
             'aria-labelledby' => 'dropdownMenu1'
@@ -90,6 +93,8 @@ class Role extends EloquentRole
 
         return $actions_html;
     }
+
+
 
 
 }

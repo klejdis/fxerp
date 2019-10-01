@@ -4,9 +4,11 @@ namespace Modules\Admin\Http\Requests;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\Admin\Entities\Client;
+use Modules\Admin\Entities\Product;
 use Modules\Admin\Entities\Role;
 
-class StoreRoleRequest extends FormRequest
+class StoreClientRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,6 +27,6 @@ class StoreRoleRequest extends FormRequest
      */
     public function rules()
     {
-        return Role::getValidationRules($this);
+        return Client::getValidationRules($this);
     }
 }

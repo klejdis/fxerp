@@ -3,19 +3,20 @@
 namespace Modules\Admin\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-use Cartalyst\Sentinel\Roles\EloquentRole;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Request;
 use Sentinel;
 use Collective\Html\HtmlFacade;
 use Wildside\Userstamps\Userstamps;
 
-class Role extends EloquentRole
+class Product extends Model
 {
 
     use Userstamps;
 
     protected $appends = ['actions'];
+
+    public $fillable = [
+        'name', 'description'
+    ];
 
     /**
      * ------------------------------------------------------------------------
@@ -23,11 +24,10 @@ class Role extends EloquentRole
      * ------------------------------------------------------------------------
      */
 
-    public static function getValidationRules(FormRequest $request){
+    public static function getValidationRules(){
         return [
             'name' => 'required',
-            'slug' => 'required',
-            'permissions' => 'required|array',
+            'description' => 'nullable',
         ];
     }
 
@@ -39,19 +39,19 @@ class Role extends EloquentRole
     public function getActionsAttribute(){
         $actions_html = '';
 
-//        if (Sentinel::hasAccess('read-roles')) {
-//            $actions_html .= HtmlFacade::link(
-//                route('admin.roles.show', ['role' => $this->id]),
-//                app('laravel-font-awesome')->icon('fa-search'),
-//                ['title' => 'Roles Detail'],
-//                false,
-//                false
-//            );
-//        }
+        if (Sentinel::hasAccess('read-product')) {
+            $actions_html .= HtmlFacade::link(
+                route('admin.products.show', ['user' => $this->id]),
+                app('laravel-font-awesome')->icon('fa-search'),
+                ['title' => 'Roles Detail'],
+                false,
+                false
+            );
+        }
 
-        if (Sentinel::hasAccess('edit-roles')){
+        if (Sentinel::hasAccess('edit-product')){
             $actions_html .= modal_anchor(
-                route('admin.roles.edit', ['role' => $this->id]),
+                route('admin.products.edit', ['user' => $this->id]),
                 app('laravel-font-awesome')->icon('fa-pencil'),
                 ['class' => 'edit' , 'title' => 'Edit Roles']
             );
@@ -59,14 +59,14 @@ class Role extends EloquentRole
 
         $dtDropdownListItems = [];
 
-        if (Sentinel::hasAccess('delete-roles')) {
+        if (Sentinel::hasAccess('delete-product')) {
             $dtDropdownListItems[] = HtmlFacade::link(
                 '#',
                 'Delete',
                 [
                     'data-id'=> $this->id,
                     'data-action' => 'delete-confirmation',
-                    'data-action-url' => route('admin.roles.destroy', $this->id),
+                    'data-action-url' => route('admin.products.destroy', $this->id),
                 ],
                 false,
                 false
@@ -90,6 +90,8 @@ class Role extends EloquentRole
 
         return $actions_html;
     }
+
+
 
 
 }

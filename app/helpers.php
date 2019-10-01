@@ -1,14 +1,13 @@
 <?php
 
+use Setting;
+
 /**
  * ----------------------------------------------------------------------------
  * This function is used to include all route files into one
  * in this way we can split the route files into multiple files
  * ----------------------------------------------------------------------------
  */
-
-use Setting;
-
 if (! function_exists('include_route_files')){
     /**
      * Loops through a folder and requires all PHP files
@@ -146,6 +145,10 @@ if (!function_exists('getPublicUrlFromPath')){
     }
 }
 
+/**
+ * Extract base64 image from submited request
+ * @return string
+ */
 if (!function_exists('getBase64ImageFromRequest')){
     function getBase64ImageFromRequest($base64_str = null){
         if ($base64_str !== null){
@@ -159,6 +162,10 @@ if (!function_exists('getBase64ImageFromRequest')){
     }
 }
 
+/**
+ * Get DateTime format selecred on Settings
+ * @return string
+ */
 if(!function_exists('getDateTimeFormat')){
     function getDateTimeFormat(){
         $datetime = Setting::get('app-date-format').' '.Setting::get('app-time-format');
@@ -166,15 +173,22 @@ if(!function_exists('getDateTimeFormat')){
     }
 }
 
+/**
+ * Get User Avatar
+ * @return string
+ */
 if(!function_exists('getUserAvatar')){
     function getUserAvatar(){
         return asset('/admin/images/avatar.jpg');
     }
 }
 
-
+/**
+ * Get App Logo selecred on Settings
+ * @return string
+ */
 if(!function_exists('getAppLogo')){
     function getAppLogo(){
-        return asset('/admin/images/logo.png');
+        return getPublicUrlFromPath(Setting::get('app-logo')) ? getPublicUrlFromPath(Setting::get('app-logo')) : asset('/admin/images/logo.png');
     }
 }

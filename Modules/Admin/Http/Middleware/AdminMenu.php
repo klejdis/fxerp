@@ -38,40 +38,21 @@ class AdminMenu
                    )->order(0);
                }
 
-
-               if (Sentinel::hasAccess('browse-teacher')){
+               if (Sentinel::hasAccess('browse-product')){
                    $menu->route(
-                       'admin.teachers.index',
-                       __('admin::admin.Teachers'),
+                       'admin.products.index',
+                       __('admin::admin.Products'),
                        null,
-                       ['icon' => 'fa fa-user']
+                       ['icon' => 'fa fa-product-hunt']
                    )->order(2);
                }
 
-               if (Sentinel::hasAccess('browse-student')){
+               if (Sentinel::hasAccess('browse-clients')){
                    $menu->route(
-                       'admin.students.index',
-                       __('admin::admin.Student'),
+                       'admin.clients.index',
+                       __('admin::admin.Clients'),
                        null,
-                       ['icon' => 'fa fa-user']
-                   )->order(2);
-               }
-
-               if (Sentinel::hasAccess('browse-course')){
-                   $menu->route(
-                       'admin.courses.index',
-                       __('admin::admin.Course'),
-                       null,
-                       ['icon' => 'fa fa-road']
-                   )->order(2);
-               }
-
-               if (Sentinel::hasAccess('browse-batch')){
-                   $menu->route(
-                       'admin.batches.index',
-                       __('admin::admin.Batches'),
-                       null,
-                       ['icon' => 'fa fa-cubes']
+                       ['icon' => 'fa fa-database']
                    )->order(2);
                }
 
@@ -83,7 +64,6 @@ class AdminMenu
                        ['icon' => 'fa fa-circle']
                    )->order(20);
                }
-
 
                if (Sentinel::hasAccess('browse-roles')){
                    $menu->route(

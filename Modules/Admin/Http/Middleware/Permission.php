@@ -27,7 +27,8 @@ class Permission
             if (Sentinel::hasAccess($permission)) {
                 return $next($request);
             }else{
-                if (Helper::checkRouteForPermission( Helper::getPreviusRoute() )){
+
+                if (Helper::checkRouteForPermission( Helper::getPreviusRoute())){
                     if (!$request->ajax()){
                         return redirect()->back()->with([
                             'error_message' => __('admin::admin.Not Authorized For This Action')
