@@ -95,6 +95,15 @@ class Client extends Model
     }
 
 
+    /**
+     * ------------------------------------------------------------------------
+     * RELATIONS
+     * ------------------------------------------------------------------------
+     */
+
+    public function products(){
+        return $this->hasMany('Modules\Admin\Entities\Product', 'client_id');
+    }
 
 
 }

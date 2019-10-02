@@ -91,6 +91,15 @@ class Product extends Model
         return $actions_html;
     }
 
+    /**
+     * ------------------------------------------------------------------------
+     * RELATIONS
+     * ------------------------------------------------------------------------
+     */
+
+    public function client(){
+        return $this->belongsTo('Modules\Admin\Entities\Client', 'client_id');
+    }
 
 
 

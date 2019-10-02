@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="table-responsive">
-                <table id="users" class="display" cellspacing="0" width="100%"></table>
+                <table id="clients" class="display" cellspacing="0" width="100%"></table>
             </div>
         </div>
     </div>
@@ -21,7 +21,7 @@
     <script>
         $(document).ready(function () {
 
-            $('#users').appTable({
+            $('#clients').appTable({
                source :  '{{ route('admin.clients.datatable') }}',
                columns : [
                    {  title : 'Id' , data : 'id'},

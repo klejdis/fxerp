@@ -112,6 +112,7 @@ return [
     'Address' => 'Address',
     'City' => 'City',
     'Website' => 'Website',
+    'Company Name' => 'Company Name',
 
     /*-----------------------------------------------------------------------*/
 

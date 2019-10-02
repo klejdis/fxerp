@@ -28,6 +28,18 @@ Route::get('/clients/{client}/show/general-info/tab', [
     'middleware' => 'permission:read-clients'
 ]);
 
+Route::get('/clients/{client}/show/products/tab', [
+    'as'     => 'clients.show.products',
+    'uses'   => 'ClientsController@products',
+    'middleware' => 'permission:read-product'
+]);
+
+Route::post('/clients/{client}/show/products/datatable', [
+    'as'     => 'clients.show.products.datatable',
+    'uses'   => 'ClientsController@productsDatatable',
+    'middleware' => 'permission:read-product'
+]);
+
 Route::get('/clients/{client}/show/change-password/tab', [
     'as'     => 'clients.show.change_password',
     'uses'   => 'ClientsController@changePasswordTab',

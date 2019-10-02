@@ -30,7 +30,7 @@
         {!! Form::label('phone', __('admin::admin.Phone') , ['class' => 'col-sm-4' ]) !!}
 
         <div class="col-sm-8">
-            {!! Form::text('phone' , '' , ['class' => 'form-control','placeholder' => __('admin::admin.Phone'), 'data-rule-required' => '1'])   !!}
+            {!! Form::text('phone' , '' , ['class' => 'form-control','placeholder' => __('admin::admin.Phone'), 'data-rule-required' => '1','data-rule-digits' => '1'])   !!}
         </div>
     </div>
 

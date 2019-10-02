@@ -1,6 +1,6 @@
 <div class="tab-content">
 
-    {!! Form::model($user , ['route' => ['admin.users.update', $user ] , 'method' => 'post', 'class'=> 'general-form dashed-row white', 'id' => 'detail-user-form'])!!}
+    {!! Form::model($client , ['route' => ['admin.clients.update', $client ] , 'method' => 'post', 'class'=> 'general-form dashed-row white', 'id' => 'detail-client-form'])!!}
 
     <div class="panel">
         <div class="panel-default panel-heading">
@@ -8,43 +8,59 @@
         </div>
 
         <div class="panel-body">
-            <div class="form-group">
-                {!! Form::label('first_name', __('admin::admin.First Name') , ['class' => 'col-sm-2' ]) !!}
+            <div class="form-group row">
+                {!! Form::label('first_name', __('admin::admin.First Name') , ['class' => 'col-sm-4' ]) !!}
 
-                <div class="col-sm-10">
+                <div class="col-sm-8">
                     {!! Form::text('first_name' , null , ['class' => 'form-control', 'placeholder' => __('admin::admin.First Name'), 'data-rule-required' => '1' ]) !!}
                 </div>
             </div>
 
-            <div class="form-group ">
-                {!! Form::label('last_name', __('admin::admin.Last Name') , ['class' => 'col-sm-2' ]) !!}
+            <div class="form-group row">
+                {!! Form::label('last_name', __('admin::admin.Last Name') , ['class' => 'col-sm-4' ]) !!}
 
-                <div class="col-sm-10">
+                <div class="col-sm-8">
                     {!! Form::text('last_name' , null , ['class' => 'form-control','placeholder' => __('admin::admin.Last Name'), 'data-rule-required' => '1'])   !!}
                 </div>
             </div>
 
-            <div class="form-group ">
-                {!! Form::label('email',  __('admin::admin.Email') , ['class' => 'col-sm-2' ]) !!}
+            <div class="form-group row">
+                {!! Form::label('company_name', __('admin::admin.Company Name') , ['class' => 'col-sm-4' ]) !!}
 
-                <div class="col-sm-10">
-                    {!! Form::email('email' , null , ['class' => 'form-control', 'placeholder' => __('admin::admin.Email'), 'data-rule-required' => '1' ] ) !!}
+                <div class="col-sm-8">
+                    {!! Form::text('company_name' , null , ['class' => 'form-control','placeholder' => __('admin::admin.Company Name'), 'data-rule-required' => '1'])   !!}
                 </div>
             </div>
 
-            <div class="form-group">
-                {!! Form::label('activate',  __('admin::admin.Activated') , ['class' => 'col-sm-2' ]) !!}
+            <div class="form-group row">
+                {!! Form::label('phone', __('admin::admin.Phone') , ['class' => 'col-sm-4' ]) !!}
 
-                <div class="col-sm-4 icheck">
-                    {!! Form::checkbox('activate', 'activate' , $activate )  !!}
+                <div class="col-sm-8">
+                    {!! Form::text('phone' , null, ['class' => 'form-control','placeholder' => __('admin::admin.Phone'), 'data-rule-required' => '1','data-rule-digits' => '1'])   !!}
                 </div>
             </div>
 
-            <div class="form-group">
-                {!! Form::label('roles',  __('admin::admin.Roles') , ['class' => 'col-sm-2' ]) !!}
+            <div class="form-group row">
+                {!! Form::label('address', __('admin::admin.Address') , ['class' => 'col-sm-4' ]) !!}
 
-                <div class="col-sm-10">
-                    {!! Form::select('roles[]' , $roles , null , ['class' => 'form-control select2-role', 'data-rule-required' => '1', "multiple"=>"multiple" ] ) !!}
+                <div class="col-sm-8">
+                    {!! Form::text('address' , null , ['class' => 'form-control','placeholder' => __('admin::admin.Address'), 'data-rule-required' => '1'])   !!}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                {!! Form::label('city', __('admin::admin.City') , ['class' => 'col-sm-4' ]) !!}
+
+                <div class="col-sm-8">
+                    {!! Form::text('city' , null , ['class' => 'form-control','placeholder' => __('admin::admin.City'), 'data-rule-required' => '1'])   !!}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                {!! Form::label('website', __('admin::admin.Website') , ['class' => 'col-sm-4' ]) !!}
+
+                <div class="col-sm-8">
+                    {!! Form::text('website' , null , ['class' => 'form-control','placeholder' => __('admin::admin.Website'), 'data-rule-required' => '1', 'data-rule-url'=>'1'])   !!}
                 </div>
             </div>
         </div>
@@ -60,7 +76,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#detail-user-form').appForm({
+        $('#detail-client-form').appForm({
             isModal : false,
             onSuccess : function (result) {
                 if(result.success){
@@ -74,7 +90,6 @@
             }
         });
 
-        setSelect2('.select2-role',{});
-
+        setSelect2('.select2',{})
     });
 </script>

@@ -2,10 +2,12 @@
 
 namespace Modules\Admin\Http\Controllers;
 
+use DemeterChain\C;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use Modules\Admin\Entities\Client;
+use Modules\Admin\Entities\Product;
 use Modules\Admin\Entities\Role;
 use Modules\Admin\Entities\User;
 use Modules\Admin\Http\Requests\StoreClientRequest;
@@ -59,19 +61,33 @@ class ClientsController extends Controller
      * Show the specified tab.
      * @return mixed
      */
-    public function generalInfoTab(Request $request, User $user){
-        $roles = Role::pluck('name', 'id');
-        $activate = (Activation::completed($user)) ? true : false;
-
-        return View::make('admin::users.general-info',compact('user','roles','activate'))->render();
+    public function generalInfoTab(Request $request, Client $client){
+        return View::make('admin::clients.general-info',compact('client'))->render();
     }
 
     /**
      * Show the specified tab.
      * @return mixed
      */
-    public function changePasswordTab(Request $request,  User $user){
-        return View::make('admin::users.change-password-tab', compact('user'))->render();
+    public function products(Request $request, Client $client){
+        return View::make('admin::clients.products',compact('client'))->render();
+    }
+
+    /**
+     * Show the specified tab.
+     * @return mixed
+     */
+    public function productsDatatable(Request $request, Client $client){
+        $products = Product::query()->whereHas('client',function ($q) use ($client){
+            return $q->where('id', $client->id);
+        });
+        $datatables = Datatables::of($products);
+
+        //EDIT COLUMNS
+        $datatables->editColumn('created_at',function($product){ return Carbon::parse($product->created_at)->format(getDateTimeFormat()); });
+
+        //FILTERS
+        return $datatables->rawColumns(['actions'])->make();
     }
 
     /**
@@ -87,7 +103,6 @@ class ClientsController extends Controller
      * @return Response
      */
     public function store(StoreClientRequest $request){
-
         try{
             $client = Client::create($request->all());
         }catch (\Exception $exception){
@@ -107,101 +122,48 @@ class ClientsController extends Controller
      * Edit user
      * @return mixed
      */
-    public function edit(User $user, PermissionRepository $permissionRepository){
-        $roles = Role::pluck('name', 'id');
-        $permissions = $permissionRepository->getPermissionsGroupped();
-        $activate = (Activation::completed($user)) ? true : false;
-        $selected_permissions = collect($user->getPermissions())->map(function($p,$k){
-            return $k;
-        });
-
-        return view('admin::users.edit', compact('user','roles','permissions','activate','selected_permissions'));
+    public function edit(Client $client){
+        return view('admin::clients.edit', compact('client'));
     }
 
-    public function quickUpdate(UpdateUserRequest $request, User $user){
-
-        $activate = $request->has('activate') ? true : false;
-
-        $user->update($request->except(['password', 'password_confirmation']));
-
-        $user->roles()->sync($request->roles);
-
-        if ($request->permissions) {
-            $user->permissions = $this->permissionRepository->getPermissionsFromGroup($request->permissions);
-            $user->save();
+    /**
+     * @param UpdateUserRequest $request
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function quickUpdate(StoreClientRequest $request, Client $client){
+        try{
+            $client->update($request->all());
+        }catch (\Exception $exception){
+            return response()->json([
+                'success' => false,
+                'message' => 'Something Went Wrong'
+            ]);
         }
 
-        if ($request->password) {
-            Sentinel::update($user , $request->only('email','password'));//if password changes
-        }
-
-        if ($activate == true){
-            $user_activation = Activation::where('user_id',$user->id)->first();
-            /*dd($user_activation);*/
-            if ($user_activation){
-                $user_activation->completed = true;
-                $user_activation->update();
-            }else{
-                $activation = Activation::create($user);
-                $complete = Activation::complete($user, $activation->code);
-                if ($complete){
-                    $activation = Activation::completed($user);
-                }
-            }
-        }else if ($activate == false){
-            $user_activation = Activation::where('user_id',$user->id)->first();
-            if ($user_activation){
-                $user_activation->completed = 0;
-                $user_activation->update();
-            }
-        }
+        $client = Client::find($client->id);
 
         return response()->json([
             'success' => true,
-            'newData' => $user
+            'newData' => $client
         ]);
     }
 
     /**
-     * Update user
+     * Update Client
      * @return Response
      */
-    public function update(UpdateUserRequest $request, User $user){
-        $activate = $request->has('activate') ? true : false;
-
-        $user->update($request->except(['password', 'password_confirmation']));
-
-        $user->roles()->sync($request->roles);
-
-        if ($request->permissions) {
-            $user->permissions = $this->permissionRepository->getPermissionsFromGroup($request->permissions);
-            $user->save();
+    public function update(StoreClientRequest $request, Client $client){
+        try{
+            $client->update($request->all());
+        }catch (\Exception $exception){
+            return response()->json([
+                'success' => false,
+                'message' => 'Something Went Wrong'
+            ]);
         }
 
-        if ($request->password) {
-            Sentinel::update($user , $request->only('email','password'));//if password changes
-        }
-
-        if ($activate == true){
-            $user_activation = Activation::where('user_id',$user->id)->first();
-            /*dd($user_activation);*/
-            if ($user_activation){
-                $user_activation->completed = true;
-                $user_activation->update();
-            }else{
-                $activation = Activation::create($user);
-                $complete = Activation::complete($user, $activation->code);
-                if ($complete){
-                    $activation = Activation::completed($user);
-                }
-            }
-        }else if ($activate == false){
-            $user_activation = Activation::where('user_id',$user->id)->first();
-            if ($user_activation){
-                $user_activation->completed = 0;
-                $user_activation->update();
-            }
-        }
+        $client = Client::find($client->id);
 
         return response()->json([
             'success' => true,
@@ -215,12 +177,16 @@ class ClientsController extends Controller
     public function delete(Request $request){
 
         if ($request->input('id')){
-            $user = User::find($request->input('id'));
-            $user->delete();
+            $client = Client::find($request->input('id'));
+            $client->delete();
+
+            return response()->json([
+                'success' => 'success',
+            ]);
         }
 
         return response()->json([
-            'success' => 'success',
+            'error' => true,
         ]);
     }
 }
