@@ -178,6 +178,66 @@ class PermissionSeeder extends Seeder
                 'slug' => 'delete-clients',
                 'module' => 'Clients',
             ],
+
+            [
+                'name' => 'Browse Product Brands',
+                'slug' => 'browse-product-brand',
+                'module' => 'Product Brands',
+            ],
+
+            [
+                'name' => 'Read Product Brands',
+                'slug' => 'read-product-brand',
+                'module' => 'Product Brands',
+            ],
+
+            [
+                'name' => 'Edit Product Brands',
+                'slug' => 'edit-product-brand',
+                'module' => 'Product Brands',
+            ],
+
+            [
+                'name' => 'Add Product Brands',
+                'slug' => 'create-product-brand',
+                'module' => 'Product Brands',
+            ],
+
+            [
+                'name' => 'Delete Product Brands',
+                'slug' => 'delete-product-brand',
+                'module' => 'Product Brands',
+            ],
+
+            [
+                'name' => 'Browse Product Category',
+                'slug' => 'browse-product-category',
+                'module' => 'Product Category',
+            ],
+
+            [
+                'name' => 'Read Product Category',
+                'slug' => 'read-product-category',
+                'module' => 'Product Category',
+            ],
+
+            [
+                'name' => 'Edit Product Category',
+                'slug' => 'edit-product-category',
+                'module' => 'Product Category',
+            ],
+
+            [
+                'name' => 'Add Product Category',
+                'slug' => 'create-product-category',
+                'module' => 'Product Category',
+            ],
+
+            [
+                'name' => 'Delete Product Category',
+                'slug' => 'delete-product-category',
+                'module' => 'Product Category',
+            ],
         ]);
     }
 }

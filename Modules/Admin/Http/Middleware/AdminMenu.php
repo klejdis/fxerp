@@ -38,14 +38,37 @@ class AdminMenu
                    )->order(0);
                }
 
-               if (Sentinel::hasAccess('browse-product')){
-                   $menu->route(
-                       'admin.products.index',
-                       __('admin::admin.Products'),
-                       null,
-                       ['icon' => 'fa fa-product-hunt']
-                   )->order(2);
-               }
+               $menu->dropdown('Product', function ($sub) {
+
+                   if (Sentinel::hasAccess('browse-product')){
+                       $sub->route(
+                           'admin.products.index',
+                           __('admin::admin.Products'),
+                           null,
+                           ['icon' => 'fa fa-product-hunt']
+                       )->order(2);
+                   }
+
+                   if (Sentinel::hasAccess('browse-product-category')){
+                       $sub->route(
+                           'admin.products-category.index',
+                           __('admin::admin.Products Category'),
+                           null,
+                           ['icon' => 'fa fa-chevron-right']
+                       )->order(2);
+                   }
+
+                   if (Sentinel::hasAccess('browse-product-brand')){
+                       $sub->route(
+                           'admin.products-brand.index',
+                           __('admin::admin.Products Brand'),
+                           null,
+                           ['icon' => 'fa fa-chevron-right']
+                       )->order(2);
+                   }
+               }, 3);
+
+
 
                if (Sentinel::hasAccess('browse-clients')){
                    $menu->route(
