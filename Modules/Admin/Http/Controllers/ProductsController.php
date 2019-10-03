@@ -3,7 +3,10 @@
 namespace Modules\Admin\Http\Controllers;
 
 use Illuminate\Support\Facades\View;
+use Modules\Admin\Entities\Client;
 use Modules\Admin\Entities\Product;
+use Modules\Admin\Entities\ProductBrand;
+use Modules\Admin\Entities\ProductCategory;
 use Modules\Admin\Http\Requests\StoreProductRequest;
 use Sentinel;
 use DataTables;
@@ -62,7 +65,11 @@ class ProductsController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function quickCreate(Request $request){
-        return view('admin::products.quick_create' , compact(''));
+        $clients = Client::all()->pluck('first_name', 'id');
+        $productCategories = ProductCategory::all()->pluck('name', 'id');
+        $productBrands = ProductBrand::all()->pluck('name', 'id');
+
+        return view('admin::products.quick_create' , compact('clients', 'productBrands', 'productCategories'));
     }
 
     /**
@@ -70,13 +77,12 @@ class ProductsController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function store(StoreProductRequest $request){
-
         try {
             $product = Product::create($request->all());
         }catch (\Exception $exception){
             return response()->json([
                 'error' => true,
-                'message' => 'Something went wrong'
+                'message' => $exception->getMessage()
             ]);
         }
 
@@ -91,8 +97,11 @@ class ProductsController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit(Product $product){
+        $clients = Client::all()->pluck('first_name', 'id');
+        $productCategories = ProductCategory::all()->pluck('name', 'id');
+        $productBrands = ProductBrand::all()->pluck('name', 'id');
 
-        return view('admin::products.edit', compact('product'));
+        return view('admin::products.edit', compact('product','clients', 'productBrands', 'productCategories'));
     }
 
     /**

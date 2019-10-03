@@ -15,7 +15,7 @@ class Product extends Model
     protected $appends = ['actions'];
 
     public $fillable = [
-        'name', 'description'
+        'name', 'description', 'product_category_id','product_brand_id','unit','unit_price', 'purchase_price','freeshipping','client_id','freeshipping'
     ];
 
     /**
