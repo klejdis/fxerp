@@ -5,6 +5,7 @@ namespace Modules\Admin\Http\Controllers;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
+use Modules\Admin\Entities\Client;
 use Modules\Admin\Entities\Role;
 use Modules\Admin\Entities\User;
 use Modules\Admin\Http\Requests\StoreUserRequest;
@@ -25,7 +26,14 @@ class UsersController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(){
-        return view('admin::users.index')->with([
+
+        $roles = Role::all()->map(function ($r){
+            return ['id' => $r->id , 'text' => $r->name];
+        });
+
+        $roles_filter = ['name' => 'roles' , 'class' => 'w200', 'options' => array_prepend($roles->toArray(),['id'=>'','text'=>'-Role-'])];
+
+        return view('admin::users.index',compact('roles_filter'))->with([
             'panel' => [
                 'name' => __('admin::admin.Users')
             ]
@@ -36,8 +44,15 @@ class UsersController extends Controller
      * Datatables server side rendering
      * @return mixed
      */
-    public function datatable(){
+    public function datatable(Request $request){
         $users = User::select(['id', 'first_name', 'last_name', 'email', 'created_at'])->with('roles','activations');
+
+        if ($request->input('roles')){
+            $users->whereHas('roles',function ($q) use ($request) {
+                return $q->where('id',$request->input('roles'));
+            });
+        }
+
         $datatables = DataTables::of($users);
 
         //EDIT COLUMNS
@@ -86,6 +101,12 @@ class UsersController extends Controller
         return View::make('admin::users.permissions-tab', compact('user','permissions','selected_permissions'))->render();
     }
 
+    /**
+     * @param Request $request
+     * @param User $user
+     * @param PermissionRepository $permissionRepository
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function permissionsTabPost(Request $request, User $user, PermissionRepository $permissionRepository){
         if ($request->permissions) {
             $user->permissions = $permissionRepository->getPermissionsFromGroup($request->permissions);
@@ -103,6 +124,12 @@ class UsersController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function changePassword(Request $request, User $user){
         $this->validate($request, [
             'password' => 'required|confirmed|min:8',
@@ -176,6 +203,11 @@ class UsersController extends Controller
         return view('admin::users.edit', compact('user','roles','permissions','activate','selected_permissions'));
     }
 
+    /**
+     * @param UpdateUserRequest $request
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function quickUpdate(UpdateUserRequest $request, User $user){
 
         $activate = $request->has('activate') ? true : false;

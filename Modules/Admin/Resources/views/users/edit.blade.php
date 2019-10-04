@@ -33,6 +33,15 @@
             {!! Form::select('roles[]' , $roles , null , ['class' => 'form-control select2', 'data-rule-required' => '1', 'multiple'=> 'multiple'] ) !!}
         </div>
     </div>
+
+    <div class="form-group row">
+        {!! Form::label('activate',  __('admin::admin.Activate') , ['class' => 'col-sm-4' ]) !!}
+
+        <div class="col-sm-8">
+            {!! Form::checkbox('activate', 'activate', $activate )  !!}
+        </div>
+    </div>
+
 </div>
 
 <div class="modal-footer">

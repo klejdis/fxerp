@@ -66,7 +66,7 @@ class AdminMenu
                            ['icon' => 'fa fa-chevron-right']
                        )->order(2);
                    }
-               }, 3);
+               },  ['icon' => 'dot fa fa-circle']);
 
 
 

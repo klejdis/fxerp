@@ -94,6 +94,14 @@ class Client extends Model
         return $actions_html;
     }
 
+    /**
+     * Clients full name
+     * @return string
+     */
+    function getFullNameAttribute(){
+        return $this->first_name . ' '. $this->last_name ;
+    }
+
 
     /**
      * ------------------------------------------------------------------------

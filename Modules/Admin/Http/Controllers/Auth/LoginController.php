@@ -17,8 +17,9 @@ use Session;
 class LoginController extends Controller
 {
     /**
-    * Login Page
-    */
+     * Login page
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function login(){
         return view('admin::auth.login');
     }

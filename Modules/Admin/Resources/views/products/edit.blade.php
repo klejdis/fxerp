@@ -38,7 +38,7 @@
         {!! Form::label('client_id', 'Client' , ['class' => 'col-sm-4' ]) !!}
 
         <div class="col-sm-8">
-            {!! Form::select('clients' , $clients , '' , ['class' => 'form-control', 'placeholder' => '', 'data-rule-required' => 1 ])   !!}
+            {!! Form::select('client_id' , $clients , $product->client_id , ['class' => 'form-control', 'placeholder' => '', 'data-rule-required' => 1 ])   !!}
         </div>
     </div>
 
@@ -46,7 +46,7 @@
         {!! Form::label('product_category_id', 'Product Category' , ['class' => 'col-sm-4' ]) !!}
 
         <div class="col-sm-8">
-            {!! Form::select('product_category_id' , $productCategories , '' , ['class' => 'form-control', 'placeholder' => '', 'data-rule-required' => 1 ])   !!}
+            {!! Form::select('product_category_id' , $productCategories , $product->product_category_id , ['class' => 'form-control', 'placeholder' => '', 'data-rule-required' => 1 ])   !!}
         </div>
     </div>
 
@@ -54,7 +54,7 @@
         {!! Form::label('product_brand_id', 'Product Brand ' , ['class' => 'col-sm-4' ]) !!}
 
         <div class="col-sm-8">
-            {!! Form::select('clients' , $productBrands , '' , ['class' => 'form-control', 'placeholder' => '', 'data-rule-required' => 1 ])   !!}
+            {!! Form::select('product_brand_id' , $productBrands , $product->product_brand_id , ['class' => 'form-control', 'placeholder' => '', 'data-rule-required' => 1 ])   !!}
         </div>
     </div>
 

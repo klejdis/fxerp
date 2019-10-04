@@ -22,7 +22,6 @@ class Role extends EloquentRole
      * MODEL VALIDATION RULES
      * ------------------------------------------------------------------------
      */
-
     public static function getValidationRules(FormRequest $request){
         return [
             'name' => 'required',

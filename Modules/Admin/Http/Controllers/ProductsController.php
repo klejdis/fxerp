@@ -22,10 +22,16 @@ class ProductsController extends Controller
      */
     public function index(Request $request){
 
-        return view('admin::products.index')->with([
+        $clients = Client::all()->map(function ($c){
+            return ['id' => $c->id , 'text' => $c->fullName];
+        });
+
+        $clients_filter = ['name' => 'client_id' , 'class' => 'w200', 'options' => array_prepend($clients->toArray(),['id'=>'','text'=>'-Client-'])];
+
+        return view('admin::products.index', compact('clients','clients_filter'))->with([
             'panel' => [
                 'name' => __('admin::admin.Products')
-            ]
+            ],
         ]);
     }
 
@@ -33,8 +39,15 @@ class ProductsController extends Controller
      * Datatables server side rendering
      * @return mixed
      */
-    public function datatable(){
+    public function datatable(Request $request){
         $products = Product::query();
+
+        if($request->input('client_id')){
+            $products->whereHas('client',function ($q) use ($request){
+                $q->where('id',$request->input('client_id'));
+            });
+        }
+
         $datatables = Datatables::of($products);
 
         //EDIT COLUMNS
@@ -109,7 +122,6 @@ class ProductsController extends Controller
      * @return mixed
      */
     public function update(StoreProductRequest $request, Product $product){
-
         try {
             $product->update($request->all());
         }catch (\Exception $exception){

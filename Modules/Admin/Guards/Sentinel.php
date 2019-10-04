@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Admin\Guards;
 
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel as SentinelFacade;

@@ -30,6 +30,9 @@
                     {  title : 'Created At' , data : 'created_at' },
                     {  data : 'actions', title: '<i class="fa fa-bars"></i>', "class": "text-left option w250" , orderable: false, searchable: false },
                 ],
+                filterDropdown : [
+                    {!! json_encode($clients_filter) !!}
+                ]
             });
 
         });

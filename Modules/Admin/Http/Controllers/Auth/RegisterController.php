@@ -2,7 +2,6 @@
 
 namespace Modules\Admin\Http\Controllers\Auth;
 
-
 use Mail;
 use Route;
 use Setting;
@@ -18,13 +17,14 @@ class RegisterController extends Controller
 {
 
     /**
-    * Register Form
-    */
+     * Register Form
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function register(){
         if (Setting::get('activation-availability') == 'true') {
              return view('backend.auth.register');
         }
-       
+
        return redirect()->back();
     }
 
@@ -57,8 +57,12 @@ class RegisterController extends Controller
 
 
     /**
-    * Active User Account
-    */
+     * Active User Account
+     *
+     * @param User $user
+     * @param $activation
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function activate(User $user , $activation){
         $activation = Activation::exists($user);
 
