@@ -31,8 +31,16 @@
                     {  data : 'actions', title: '<i class="fa fa-bars"></i>', "class": "text-left option w250" , orderable: false, searchable: false },
                 ],
                 filterDropdown : [
-                    {!! json_encode($clients_filter) !!}
+                    {!! json_encode($clients_filter) !!},
+                    {!! json_encode($brands_filter) !!}
+                ],
+                dateRangeType : 'monthly',
+                radioButtons : [
+                     {text: "Free Shipping", name: "freeshiping", value: "1", isChecked: false},
+                     {text: "Both", name: "freeshiping", value: "all", isChecked: true},
+                     {text: "No Shipping", name: "freeshiping", value: "0", isChecked: false}
                 ]
+
             });
 
         });

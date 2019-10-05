@@ -101,6 +101,10 @@ class Product extends Model
         return $this->belongsTo('Modules\Admin\Entities\Client', 'client_id');
     }
 
+    public function brand(){
+        return $this->belongsTo('Modules\Admin\Entities\ProductBrand', 'product_brand_id');
+    }
+
 
 
 }

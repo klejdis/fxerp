@@ -754,10 +754,10 @@ if (typeof TableTools != 'undefined') {
 
         //build date wise filter selectors
         if (settings.dateRangeType) {
-            var dateRangeFilterDom = '<div class="mr-5 DTTT_container">'
-                + '<button data-act="prev" class="btn btn-default btn-white date-range-selector"><i class="icon md-chevron-left"></i></button>'
+            var dateRangeFilterDom = '<div class="mr5 DTTT_container">'
+                + '<button data-act="prev" class="btn btn-default btn-white date-range-selector"><i class="fa fa-chevron-left"></i></button>'
                 + '<button data-act="datepicker" class="btn btn-default btn-white" style="margin: -1px"></button>'
-                + '<button data-act="next"  class="btn btn-default  btn-white date-range-selector"><i class="icon md-chevron-right"></i></button>'
+                + '<button data-act="next"  class="btn btn-default  btn-white date-range-selector"><i class="fa fa-chevron-right"></i></button>'
                 + '</div>';
             $instanceWrapper.find(".custom-toolbar").append(dateRangeFilterDom);
 
@@ -979,7 +979,7 @@ if (typeof TableTools != 'undefined') {
                 checkboxes += '</label>';
             });
             settings.filterParams[name] = values;
-            var checkboxDom = '<div class="mr-5 DTTT_container">'
+            var checkboxDom = '<div class="mr5 DTTT_container">'
                 + '<div class="btn-group filter" data-act="checkbox" data-toggle="buttons">'
                 + checkboxes
                 + '</div>'
@@ -1020,7 +1020,7 @@ if (typeof TableTools != 'undefined') {
                 radiobuttons += '<input type="radio" name="' + option.name + '" value="' + option.value + '" autocomplete="off" ' + checked + '>' + option.text;
                 radiobuttons += '</label>';
             });
-            var radioDom = '<div class="mr-5 DTTT_container">'
+            var radioDom = '<div class="mr5 DTTT_container">'
                 + '<div class="btn-group filter" data-act="radio" data-toggle="buttons">'
                 + radiobuttons
                 + '</div>'
@@ -1093,7 +1093,7 @@ if (typeof TableTools != 'undefined') {
                     + options
                     + '</div>';
 
-                var selectDom = '<div class="mr-5 DTTT_container">'
+                var selectDom = '<div class="mr5 DTTT_container">'
                     + '<button name="' + datePicker.name + '" class="btn btn-default btn-white datepicker-custom-selector">'
                     + getDatePickerText(selectedText)
                     + '</button>'
@@ -1173,7 +1173,7 @@ if (typeof TableTools != 'undefined') {
 
 
                 //prepare DOM
-                var selectDom = '<div class="mr-5 DTTT_container">'
+                var selectDom = '<div class="mr5 DTTT_container">'
                     + '<div class="input-daterange input-group">'
                     + '<button class="btn btn-default btn-white form-control" name="' + startDate.name + '" data-date="' + startDate.value + '">' + startButtonText + '</button>'
                     + '<span class="input-group-addon">-</span>'
@@ -1248,7 +1248,7 @@ if (typeof TableTools != 'undefined') {
                 buttons += '<button id="'+id+'" class="'+css_class+'">'+title+'</button>';
             });
 
-            var buttonsDom = '<div class="mr-5 DTTT_container">'
+            var buttonsDom = '<div class="mr5 DTTT_container">'
                 + buttons
                 + '</div>';
 
@@ -1278,7 +1278,7 @@ if (typeof TableTools != 'undefined') {
                     settings.filterParams[dropdown.name] = selectedValue;
                 }
 
-                var selectDom = '<div class="mr-5 DTTT_container">'
+                var selectDom = '<div class="mr5 DTTT_container">'
                     + '<select class="' + dropdown.class + '" name="' + dropdown.name + '" '+dataAttr+'>'
                     + optons
                     + '</select>'

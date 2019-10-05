@@ -28,7 +28,13 @@ class ProductsController extends Controller
 
         $clients_filter = ['name' => 'client_id' , 'class' => 'w200', 'options' => array_prepend($clients->toArray(),['id'=>'','text'=>'-Client-'])];
 
-        return view('admin::products.index', compact('clients','clients_filter'))->with([
+        $brands = ProductBrand::all()->map(function ($p){
+            return ['id' => $p->id , 'text' => $p->name];
+        });
+
+        $brands_filter = ['name' => 'product_brand_id' , 'class' => 'w200', 'options' => array_prepend($brands->toArray(),['id'=>'','text'=>'-Brand-'])];
+
+        return view('admin::products.index', compact('clients','clients_filter','brands_filter'))->with([
             'panel' => [
                 'name' => __('admin::admin.Products')
             ],
@@ -42,10 +48,31 @@ class ProductsController extends Controller
     public function datatable(Request $request){
         $products = Product::query();
 
+        //clients filter
         if($request->input('client_id')){
             $products->whereHas('client',function ($q) use ($request){
                 $q->where('id',$request->input('client_id'));
             });
+        }
+
+        //brand filter
+        if($request->input('product_brand_id')){
+            $products->whereHas('brand',function ($q) use ($request){
+                $q->where('id',$request->input('product_brand_id'));
+            });
+        }
+
+        //Shipping filter
+        if($request->input('freeshiping') !== 'all'){
+            $products->where('freeshipping', $request->input('freeshiping'));
+        }
+
+        //Date filter
+        if($request->input('start_date') && $request->input('end_date') ){
+            $products->whereBetween('created_at', [
+                $request->input('start_date'),
+                $request->input('end_date')
+            ]);
         }
 
         $datatables = Datatables::of($products);

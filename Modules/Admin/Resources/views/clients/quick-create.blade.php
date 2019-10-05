@@ -73,7 +73,7 @@
         $('#create-clients-form').appForm({
             onSuccess : function (result) {
                 if(result.success){
-                    $('#users').appTable({
+                    $('#clients').appTable({
                         newData : result.newData
                     });
                 }else{
